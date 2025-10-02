@@ -36,6 +36,35 @@
             opacity: 0.9;
         }
         
+        .strategic-overview {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-left: 5px solid #1f4e79;
+        }
+        
+        .strategic-overview h2 {
+            color: #1f4e79;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        
+        .strategic-overview h3 {
+            color: #2d5aa0;
+            margin-top: 20px;
+            font-size: 1.3em;
+        }
+        
+        .strategic-overview ul {
+            line-height: 1.8;
+        }
+        
+        .strategic-overview strong {
+            color: #1f4e79;
+        }
+        
         .dashboard-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -286,8 +315,27 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1>Hemophilia Factor VIII Priority Countries & Territories</h1>
-            <p>Interactive Dashboard for Humanitarian Donation Targeting</p>
+            <h1>Hemophilia Factor VIII Prioritization Dashboard</h1>
+            <p>Research and Analysis | Direct Relief</p>
+        </div>
+        
+        <div class="strategic-overview">
+            <h2>How to Use This Dashboard</h2>
+            
+            <p>This dashboard is intended to help Direct Relief plan strategically around the provision of <a href="https://www.cdc.gov/hemophilia/treatment/index.html" target="_blank">Factor VIII for hemophilia</a>, along with the <a href="https://experience.arcgis.com/experience/ff25ff2e304c446ca574a24e52d83966" target="_blank">maps provided here</a>.</p>
+            
+            <p>This dashboard prioritizes countries for FVIII donations based on three weighted factors:</p>
+            <ul>
+                <li><strong>Medical Need (70% weight):</strong> Countries with lower Factor VIII per capita availability receive higher priority.</li>
+                <li><strong>WFH Aid Gap (20% weight):</strong> Countries receiving less humanitarian FVIII support from WFH are prioritized, as these represent opportunities where Direct Relief can make a more compelling case for support when engaging manufacturers already supporting WFH</li>
+                <li><strong>Direct Relief Support History (10% weight):</strong> Countries with less past Direct Relief FVIII support are prioritized to expand geographic reach and distribution across the partner network</li>
+            </ul>
+            
+            <p>In addition, a full list of Global South countries not receiving any FVIII from WFH is included to help identify target countries for engaging FVIII manufacturers around donation programs.</p>
+            
+            <p style="font-size: 0.85em; color: #666; margin-top: 20px;">
+                <em>Hemophilia data from <a href="https://www1.wfh.org/publications/files/pdf-2525.pdf?_gl=1*1n8abe1*_ga_7974KH9LH5*czE3NDc2OTAxODEkbzEkZzEkdDE3NDc2OTAxODgkajAkbDAkaDA." target="_blank">WFH Survey 2023</a>. Direct Relief shipment value in USD accounts for shipments sent since beginning of dataset in 2008 through March 2025.</em>
+            </p>
         </div>
         
         <div class="summary-cards" id="summaryCards">
@@ -370,6 +418,10 @@
                     <option value="medium">Medium (50-70)</option>
                     <option value="low">Low (&lt;50)</option>
                 </select>
+                
+                <button id="downloadMainTableCSV" style="padding: 8px 16px; background: #1f4e79; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    Download CSV
+                </button>
             </div>
             <div class="table-scroll">
                 <table id="priorityTable">
@@ -411,6 +463,10 @@
                 
                 <label for="priorityCountriesSearch">Search:</label>
                 <input type="text" id="priorityCountriesSearch" placeholder="Filter countries...">
+                
+                <button id="downloadPriorityCountriesCSV" style="padding: 8px 16px; background: #8B4513; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    Download CSV
+                </button>
             </div>
             <div class="table-scroll">
                 <table id="priorityCountriesTable">
@@ -429,22 +485,6 @@
             </div>
         </div>
         
-        <div class="methodology">
-            <h3>Methodology</h3>
-            <p><strong>Priority Score Calculation:</strong></p>
-            <p>The priority score combines three key factors to identify countries and territories most in need of Factor VIII donations:</p>
-            <ul>
-                <li><strong>Factor VIII Need (70% of score):</strong> Countries with lower Factor VIII availability per capita receive higher priority. The scoring uses an exponential formula that gives much higher priority to countries with very low availability.</li>
-                <li><strong>Current Aid Gap (20% of score):</strong> Countries receiving less humanitarian aid get higher priority. Even modest aid amounts significantly reduce the priority score, reflecting that these locations already have some support pipeline.</li>
-                <li><strong>Donation Support Gap (10% of score):</strong> Countries with lower current donation support receive higher priority. This factor has the smallest weight as it represents existing commercial/organizational support rather than direct need.</li>
-            </ul>
-            <p><strong>Data Notes:</strong></p>
-            <ul>
-                <li>Only countries and territories with reported Factor VIII data are included in the analysis (103 total)</li>
-                <li>Countries and territories with zero Factor VIII per capita are excluded as this typically represents missing data rather than true zero availability</li>
-                <li>All three factors are scored on a 0-100 scale, with higher scores indicating higher priority for donations</li>
-            </ul>
-        </div>
     </div>
 
     <script>
@@ -1757,12 +1797,6 @@
   },
   {
     "region": "Latin America & Caribbean",
-    "country": "Saint Kitts and Nevis",
-    "fviii_per_capita": null,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "Latin America & Caribbean",
     "country": "Saint Lucia",
     "fviii_per_capita": null,
     "humanitarian_aid": null
@@ -1799,19 +1833,7 @@
   },
   {
     "region": "Middle East & North Africa",
-    "country": "Kuwait",
-    "fviii_per_capita": null,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "Middle East & North Africa",
     "country": "Libya",
-    "fviii_per_capita": null,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "Middle East & North Africa",
-    "country": "Oman",
     "fviii_per_capita": null,
     "humanitarian_aid": null
   },
@@ -1819,12 +1841,6 @@
     "region": "Middle East & North Africa",
     "country": "Tunisia",
     "fviii_per_capita": 2.03,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "Middle East & North Africa",
-    "country": "United Arab Emirates",
-    "fviii_per_capita": null,
     "humanitarian_aid": null
   },
   {
@@ -1842,12 +1858,6 @@
   {
     "region": "South & Southeast Asia",
     "country": "Bhutan",
-    "fviii_per_capita": null,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "South & Southeast Asia",
-    "country": "Brunei",
     "fviii_per_capita": null,
     "humanitarian_aid": null
   },
@@ -1997,12 +2007,6 @@
   },
   {
     "region": "Sub-Saharan Africa",
-    "country": "Seychelles",
-    "fviii_per_capita": null,
-    "humanitarian_aid": null
-  },
-  {
-    "region": "Sub-Saharan Africa",
     "country": "Somalia",
     "fviii_per_capita": null,
     "humanitarian_aid": null
@@ -2089,16 +2093,18 @@
         }
         
         function createMainChart() {
-            const data = filteredData;
+            // Sort data by priority score (high to low) so low priority (green) circles are drawn first
+            // and high priority (red) circles are drawn last, appearing on top
+            const data = [...filteredData].sort((a, b) => b.priorityScore - a.priorityScore);
             
             if (currentView === '3d') {
                 const trace = {
                     x: data.map(d => d.factorVIII),
-                    y: data.map(d => d.humanitarianAid / 1000000), // Convert to millions
-                    z: data.map(d => d.drDonations / 1000000), // Convert to millions
+                    y: data.map(d => d.humanitarianAid / 1000000),
+                    z: data.map(d => d.drDonations / 1000000),
                     mode: 'markers',
                     type: 'scatter3d',
-                    text: data.map(d => `${d.country}<br>Priority: ${d.priorityScore}<br>Factor VIII: ${d.factorVIII}<br>Aid: ${d.humanitarianAid.toLocaleString()} IU<br>Donations: $${d.drDonations.toLocaleString()}`),
+                    text: data.map(d => `${d.country}<br>Priority: ${d.priorityScore.toFixed(1)}<br>Factor VIII: ${d.factorVIII}<br>Aid: ${d.humanitarianAid.toLocaleString()} IU<br>Donations: $${d.drDonations.toLocaleString()}`),
                     hovertemplate: '%{text}<extra></extra>',
                     marker: {
                         size: 8,
@@ -2115,17 +2121,19 @@
                     scene: {
                         xaxis: { 
                             title: 'Factor VIII Per Capita (Lower = Higher Need)',
+                            range: [-0.5, Math.max(...globalData.map(d => d.factorVIII)) * 1.05],
                             zeroline: false,
                             showspikes: false
                         },
                         yaxis: { 
                             title: 'Humanitarian Aid (Millions IU)',
+                            range: [-2, Math.max(...globalData.map(d => d.humanitarianAid / 1000000)) * 1.05],
                             zeroline: false,
                             showspikes: false
                         },
                         zaxis: { 
                             title: 'DR Donations (Millions USD)',
-                            range: [0, Math.max(...globalData.map(d => d.drDonations / 1000000)) || 1],
+                            range: [-2, Math.max(...globalData.map(d => d.drDonations / 1000000)) * 1.05],
                             zeroline: false,
                             showspikes: false
                         },
@@ -2143,8 +2151,10 @@
         }
         
         function create2DChart() {
-            const data = filteredData;
-            let xData, yData, xTitle, yTitle;
+            // Sort data by priority score (high to low) so low priority (green) circles are drawn first
+            // and high priority (red) circles are drawn last, appearing on top
+            const data = [...filteredData].sort((a, b) => b.priorityScore - a.priorityScore);
+            let xData, yData, xTitle, yTitle, yAxisType, yAxisRange, xAxisRange;
             
             switch(currentView) {
                 case 'need-aid':
@@ -2152,18 +2162,27 @@
                     yData = data.map(d => d.humanitarianAid / 1000000);
                     xTitle = 'Factor VIII Per Capita';
                     yTitle = 'Humanitarian Aid (Millions IU)';
+                    yAxisType = 'linear';
+                    xAxisRange = [-0.5, Math.max(...globalData.map(d => d.factorVIII)) * 1.05];
+                    yAxisRange = [-2, Math.max(...globalData.map(d => d.humanitarianAid / 1000000)) * 1.05];
                     break;
                 case 'need-dr':
                     xData = data.map(d => d.factorVIII);
-                    yData = data.map(d => d.drDonations / 1000);
+                    yData = data.map(d => d.drDonations / 1000000);
                     xTitle = 'Factor VIII Per Capita';
-                    yTitle = 'DR Donations (Thousands USD)';
+                    yTitle = 'DR Donations (Millions USD)';
+                    yAxisType = 'linear';
+                    xAxisRange = [-0.5, Math.max(...globalData.map(d => d.factorVIII)) * 1.05];
+                    yAxisRange = [-2, 50];
                     break;
                 case 'aid-dr':
                     xData = data.map(d => d.humanitarianAid / 1000000);
                     yData = data.map(d => d.drDonations / 1000000);
                     xTitle = 'Humanitarian Aid (Millions IU)';
                     yTitle = 'DR Donations (Millions USD)';
+                    yAxisType = 'linear';
+                    xAxisRange = [-2, Math.max(...globalData.map(d => d.humanitarianAid / 1000000)) * 1.05];
+                    yAxisRange = [-2, 50];
                     break;
             }
             
@@ -2172,7 +2191,7 @@
                 y: yData,
                 mode: 'markers',
                 type: 'scatter',
-                text: data.map(d => `${d.country}<br>Priority: ${d.priorityScore}<br>Factor VIII: ${d.factorVIII}<br>Aid: ${d.humanitarianAid.toLocaleString()} IU<br>Donations: $${d.drDonations.toLocaleString()}`),
+                text: data.map(d => `${d.country}<br>Priority: ${d.priorityScore.toFixed(1)}<br>Factor VIII: ${d.factorVIII}<br>Aid: ${d.humanitarianAid.toLocaleString()} IU<br>Donations: $${d.drDonations.toLocaleString()}`),
                 hovertemplate: '%{text}<extra></extra>',
                 marker: {
                     size: 10,
@@ -2191,21 +2210,29 @@
                     {
                         type: 'line',
                         x0: 0.5, x1: 0.5,
-                        y0: 0, y1: Math.max(...yData),
+                        y0: yAxisRange[0], y1: yAxisRange[1],
                         line: { color: 'red', width: 2, dash: 'dash' }
                     },
                     {
                         type: 'line',
                         x0: 1, x1: 1,
-                        y0: 0, y1: Math.max(...yData),
+                        y0: yAxisRange[0], y1: yAxisRange[1],
                         line: { color: 'orange', width: 2, dash: 'dash' }
                     }
                 );
             }
             
             const layout = {
-                xaxis: { title: xTitle },
-                yaxis: { title: yTitle, type: currentView === 'need-dr' ? 'log' : 'linear' },
+                xaxis: { 
+                    title: xTitle,
+                    range: xAxisRange
+                },
+                yaxis: { 
+                    title: yTitle, 
+                    type: yAxisType,
+                    range: yAxisRange,
+                    dtick: 10
+                },
                 shapes: shapes,
                 margin: { l: 60, r: 20, t: 20, b: 60 }
             };
@@ -2424,6 +2451,112 @@
             createMainChart();
         }
         
+        function downloadCSV(filename, data) {
+            const csv = data.join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function downloadMainTableCSV() {
+            const limit = document.getElementById('tableLimit').value;
+            const search = document.getElementById('tableSearch').value.toLowerCase();
+            const priorityFilter = document.getElementById('tablePriority').value;
+            
+            let displayData = [...globalData];
+            
+            // Apply filters
+            if (search) {
+                displayData = displayData.filter(d => 
+                    d.country.toLowerCase().includes(search)
+                );
+            }
+            
+            if (priorityFilter !== 'all') {
+                switch(priorityFilter) {
+                    case 'very-high':
+                        displayData = displayData.filter(d => d.priorityScore >= 90);
+                        break;
+                    case 'high':
+                        displayData = displayData.filter(d => d.priorityScore >= 70 && d.priorityScore < 90);
+                        break;
+                    case 'medium':
+                        displayData = displayData.filter(d => d.priorityScore >= 50 && d.priorityScore < 70);
+                        break;
+                    case 'low':
+                        displayData = displayData.filter(d => d.priorityScore < 50);
+                        break;
+                }
+            }
+            
+            // Apply sorting
+            if (sortColumn) {
+                displayData = sortData(displayData, sortColumn, sortDirection);
+            }
+            
+            if (limit !== 'all') {
+                displayData = displayData.slice(0, parseInt(limit));
+            }
+            
+            // Create CSV
+            const csvData = [
+                ['Rank', 'Country/Territory', 'Priority Score', 'Factor VIII Per Capita', 'Humanitarian Aid (IU)', 'DR Donations (USD)']
+            ];
+            
+            displayData.forEach(d => {
+                csvData.push([
+                    d.rank,
+                    d.country,
+                    d.priorityScore,
+                    d.factorVIII,
+                    d.humanitarianAid,
+                    d.drDonations
+                ]);
+            });
+            
+            downloadCSV('hemophilia_priority_rankings.csv', csvData.map(row => row.join(',')));
+        }
+        
+        function downloadPriorityCountriesCSV() {
+            const regionFilter = document.getElementById('regionFilter').value;
+            const search = document.getElementById('priorityCountriesSearch').value.toLowerCase();
+            
+            let displayData = priorityCountriesData;
+            
+            // Apply filters
+            if (regionFilter !== 'all') {
+                displayData = displayData.filter(d => d.region === regionFilter);
+            }
+            
+            if (search) {
+                displayData = displayData.filter(d => 
+                    d.country.toLowerCase().includes(search)
+                );
+            }
+            
+            // Create CSV
+            const csvData = [
+                ['Region', 'Country', 'FVIII Per Capita', 'Humanitarian Aid Status']
+            ];
+            
+            displayData.forEach(d => {
+                csvData.push([
+                    d.region,
+                    d.country,
+                    d.fviii_per_capita !== null ? d.fviii_per_capita : '',
+                    'None recorded'
+                ]);
+            });
+            
+            downloadCSV('countries_not_receiving_wfh_support.csv', csvData.map(row => row.join(',')));
+        }
+        
         function setupEventListeners() {
             document.getElementById('viewSelect').addEventListener('change', (e) => {
                 currentView = e.target.value;
@@ -2441,6 +2574,10 @@
             // Priority countries table controls
             document.getElementById('regionFilter').addEventListener('change', createPriorityCountriesTable);
             document.getElementById('priorityCountriesSearch').addEventListener('input', createPriorityCountriesTable);
+            
+            // CSV download buttons
+            document.getElementById('downloadMainTableCSV').addEventListener('click', downloadMainTableCSV);
+            document.getElementById('downloadPriorityCountriesCSV').addEventListener('click', downloadPriorityCountriesCSV);
             
             // Table sorting
             document.querySelectorAll('th[data-sort]').forEach(th => {
